@@ -4,7 +4,7 @@ Step 1(Generate cpp header file from desired java file):
 
 Step 2(Create and write a cpp implementation for generated header file):
 	
-	touch JNIExample.cpp
+	touch JNIExample.cpp // and implement cpp methods inside
 	
 Step 3(Generate dll that will be imported from java code):
 
