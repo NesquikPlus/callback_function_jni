@@ -10,6 +10,67 @@ void uppercase(char* str) {
     }
 }
 
+void pureCallerMethod(JNIEnv* jenv)
+{
+   	jclass classref = jenv->FindClass("JNIExample");
+   	jmethodID mid = jenv->GetStaticMethodID(classref, "callback_static","([B)V");
+
+	jbyteArray retArray;
+	char data[] = {'a','b',3,4,5};
+	int data_size = 5;
+
+	if(!retArray)
+		retArray = jenv->NewByteArray(data_size);
+
+	if(jenv->GetArrayLength(retArray) != data_size)
+	{
+	    jenv->DeleteLocalRef(retArray);
+	    retArray = jenv->NewByteArray(data_size);
+	}
+
+	void *temp = jenv->GetPrimitiveArrayCritical((jarray)retArray, 0);
+	memcpy(temp, data, data_size);
+	jenv->ReleasePrimitiveArrayCritical(retArray, temp, 0);
+   	jenv->CallStaticVoidMethod(classref, mid, retArray);
+}
+
+JNIEXPORT void JNICALL Java_JNIExample_callerMethod
+(JNIEnv* jenv, jobject obj) 
+{
+
+}
+
+
+JNIEXPORT void JNICALL Java_JNIExample_voidMethod
+(JNIEnv* jenv, jobject obj) 
+{
+	
+   	jclass classref = jenv->FindClass("JNIExample");
+   	jmethodID mid = jenv->GetStaticMethodID(classref, "callback_static","([B)V");
+
+	jbyteArray retArray;
+	char data[] = {'a','b',3,4,5};
+	int data_size = 5;
+
+	if(!retArray)
+		retArray = jenv->NewByteArray(data_size);
+
+	if(jenv->GetArrayLength(retArray) != data_size)
+	{
+	    jenv->DeleteLocalRef(retArray);
+	    retArray = jenv->NewByteArray(data_size);
+	}
+	void *temp = jenv->GetPrimitiveArrayCritical((jarray)retArray, 0);
+	memcpy(temp, data, data_size);
+	jenv->ReleasePrimitiveArrayCritical(retArray, temp, 0);
+   	jenv->CallStaticVoidMethod(classref, mid, retArray);
+	
+
+   	//Java_JNIExample_callerMethod(jenv, NULL);
+	//pureCallerMethod(jenv);
+}
+
+
 JNIEXPORT jint JNICALL Java_JNIExample_intMethod
 (JNIEnv* env, jobject obj, jint num) {
     return num * num;

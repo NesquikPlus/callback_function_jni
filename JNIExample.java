@@ -3,6 +3,8 @@ import java.util.*;
 public class JNIExample
 {
     // --- Native methods
+    public native void callerMethod();
+    public native void voidMethod();
     public native int intMethod(int n);
     public native boolean booleanMethod(boolean bool);
     public native String stringMethod(String text);
@@ -15,10 +17,11 @@ public class JNIExample
     {
         System.loadLibrary("JNIExample");
         JNIExample sample = new JNIExample();
+
+        sample.voidMethod();
         int square = sample.intMethod(5);
         boolean bool = sample.booleanMethod(true);
         String text = sample.stringMethod("java");
-
         System.out.println("intMethod: " + square);
         System.out.println("booleanMethod: " + bool);
         System.out.println("stringMethod: " + text);
@@ -33,7 +36,6 @@ public class JNIExample
         System.out.println();
 
 
-
         byte[] byteArr = new byte[] {52, 23, 52, 74, 2, 51, 13};
         sample.byteArrayMethod(byteArr);
 
@@ -42,15 +44,21 @@ public class JNIExample
         }
         System.out.println();
 
-        (new JNIExample()).go();
+        sample.go();
     }
 
 	public void go(){
 	    classMethod(this);
+
 	}
 
 	public String callMe(String msg){
 		System.out.println("callMe: " + msg);
 		return "Hello from Java";
 	}
+
+    public static void callback_static(byte[] arr) {
+        System.out.println("Static Callback!!!");
+    }
+
 }

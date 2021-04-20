@@ -9,6 +9,22 @@ extern "C" {
 #endif
 /*
  * Class:     JNIExample
+ * Method:    callerMethod
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_JNIExample_callerMethod
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     JNIExample
+ * Method:    voidMethod
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_JNIExample_voidMethod
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     JNIExample
  * Method:    intMethod
  * Signature: (I)I
  */
