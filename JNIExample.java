@@ -2,63 +2,50 @@ import java.util.*;
 
 public class JNIExample
 {
+    public static byte packet_data[] = {0, 0, 0, 0, 0};
     // --- Native methods
-    public native void callerMethod();
-    public native void voidMethod();
-    public native int intMethod(int n);
-    public native boolean booleanMethod(boolean bool);
-    public native String stringMethod(String text);
-    public native void intArrayMethod(int[] intArray);
-    public native void byteArrayMethod(byte[] byteArray);
-    public native void classMethod(JNIExample jniexample);
+    public native void initMethod();
 
-    // --- Main method to test our native library
     public static void main(String[] args) 
     {
         System.loadLibrary("JNIExample");
         JNIExample sample = new JNIExample();
 
-        sample.voidMethod();
-        int square = sample.intMethod(5);
-        boolean bool = sample.booleanMethod(true);
-        String text = sample.stringMethod("java");
-        System.out.println("intMethod: " + square);
-        System.out.println("booleanMethod: " + bool);
-        System.out.println("stringMethod: " + text);
+        //Thread that runs cpp code's main loop.
+        Thread t1 = new Thread
+        (    new Runnable(){
+                public void run(){  
+                    sample.initMethod();
+                }  
+            }
+        );
+        t1.start();
 
 
-        int[] intArr = new int[] {1, 1, 2, 3, 5, 8, 13};
-        sample.intArrayMethod(intArr);
-
-        for (int i=0; i < 7; i++) {
-        	System.out.print(intArr[i] + " ");
+        while(true)
+        {
+            System.out.print("Java main loop, arr: ");
+            for(int i=0; i < packet_data.length; i++){
+                System.out.print(packet_data[i] + " ");
+            }
+            System.out.println();
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch(InterruptedException ex)
+            {
+                Thread.currentThread().interrupt();
+            }
         }
-        System.out.println();
-
-
-        byte[] byteArr = new byte[] {52, 23, 52, 74, 2, 51, 13};
-        sample.byteArrayMethod(byteArr);
-
-        for (int i=0; i < 7; i++) {
-        	System.out.print(byteArr[i] + " ");
-        }
-        System.out.println();
-
-        sample.go();
     }
 
-	public void go(){
-	    classMethod(this);
-
-	}
-
-	public String callMe(String msg){
-		System.out.println("callMe: " + msg);
-		return "Hello from Java";
-	}
-
-    public static void callback_static(byte[] arr) {
-        System.out.println("Static Callback!!!");
+    //When a packet arrives this method is called by cpp code.
+    public static void callback_method(byte[] arr)
+    {
+        System.out.println("Java callback method.");
+        for(int i=0; i < packet_data.length; i++){
+            packet_data[i] = arr[i];
+        }
     }
-
 }

@@ -9,67 +9,11 @@ extern "C" {
 #endif
 /*
  * Class:     JNIExample
- * Method:    callerMethod
+ * Method:    initMethod
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_JNIExample_callerMethod
+JNIEXPORT void JNICALL Java_JNIExample_initMethod
   (JNIEnv *, jobject);
-
-/*
- * Class:     JNIExample
- * Method:    voidMethod
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_JNIExample_voidMethod
-  (JNIEnv *, jobject);
-
-/*
- * Class:     JNIExample
- * Method:    intMethod
- * Signature: (I)I
- */
-JNIEXPORT jint JNICALL Java_JNIExample_intMethod
-  (JNIEnv *, jobject, jint);
-
-/*
- * Class:     JNIExample
- * Method:    booleanMethod
- * Signature: (Z)Z
- */
-JNIEXPORT jboolean JNICALL Java_JNIExample_booleanMethod
-  (JNIEnv *, jobject, jboolean);
-
-/*
- * Class:     JNIExample
- * Method:    stringMethod
- * Signature: (Ljava/lang/String;)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_JNIExample_stringMethod
-  (JNIEnv *, jobject, jstring);
-
-/*
- * Class:     JNIExample
- * Method:    intArrayMethod
- * Signature: ([I)V
- */
-JNIEXPORT void JNICALL Java_JNIExample_intArrayMethod
-  (JNIEnv *, jobject, jintArray);
-
-/*
- * Class:     JNIExample
- * Method:    byteArrayMethod
- * Signature: ([B)V
- */
-JNIEXPORT void JNICALL Java_JNIExample_byteArrayMethod
-  (JNIEnv *, jobject, jbyteArray);
-
-/*
- * Class:     JNIExample
- * Method:    classMethod
- * Signature: (LJNIExample;)V
- */
-JNIEXPORT void JNICALL Java_JNIExample_classMethod
-  (JNIEnv *, jobject, jobject);
 
 #ifdef __cplusplus
 }
